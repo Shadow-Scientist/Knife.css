@@ -1,0 +1,148 @@
+/*
+   Knife.css | Let's cut them down!
+   Pure CSS3 based (simple) typography library*
+
+   #shadowproject
+   
+   Version 2.43.322b
+   Beta release
+   Date last modified: June 2nd, 2020 @ 4:21 AM
+   Initial release: March 4th, 2020 @ 11:00PM
+
+   MIT License, see LICENSE for details about
+   modification and distribution policy.
+
+   Please Don't remove this copyright notice if you're
+   using this file or others in the package included.
+
+   Author: Shadow Scientist (https://github.com/Shadow-Scientist)
+
+   Contact
+   —
+     Mail    - shadowshahriar@gmail.com
+     Blog    - https://shadow-scientist.blogspot.com
+ 
+   Copyright (c) Shadow Scientist, 2019-2020
+   all rights reserved.
+
+   Disclaimer: fonts are the property of their respective owners.
+   The css is included for demo purposes only.
+ 
+ 
+   +--------------------
+   ¦  ######  ######   ¦
+   |  ##      ##       |
+   ¦  ######  ######   ¦
+   |      ##      ##   |
+   ¦  ######  ######   ¦
+   --------------------+
+ 
+*/
+
+/* Making things look pretty,
+   give your unique touch */
+   
+body{
+	background-color:rgb(34,35,39);
+	padding:0;
+	margin:0;
+	overflow:hidden;
+}
+
+/* MaterialDesignIcons.com */
+
+@font-face {
+	font-family: "Material Design Icons";
+	src: url("https://cdn.materialdesignicons.com/2.1.19/fonts/materialdesignicons-webfont.eot?v=2.1.19");
+	src: url("https://cdn.materialdesignicons.com/2.1.19/fonts/materialdesignicons-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("https://cdn.materialdesignicons.com/2.1.19/fonts/materialdesignicons-webfont.woff2?v=2.1.19") format("woff2"),
+		 url("https://cdn.materialdesignicons.com/2.1.19/fonts/materialdesignicons-webfont.woff?v=2.1.19") format("woff"),
+		 url("https://cdn.materialdesignicons.com/2.1.19/fonts/materialdesignicons-webfont.ttf?v=2.1.19") format("truetype"),
+		 url("https://cdn.materialdesignicons.com/2.1.19/fonts/materialdesignicons-webfont.svg?v=2.1.19#materialdesigniconsregular") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Google Fonts: Exo */
+/* Wrap it in <link> if @import doesn't work */
+@import "https://fonts.googleapis.com/css?family=Exo:400,500,600";
+
+/* Now the fun begins! */
+
+.knife{
+	display:inline-block;
+	position:absolute;/*position should be absolute or relative*/
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);/*placing @ center of the page*/
+	white-space:nowrap;
+	font-size:0px;
+	overflow:visible;
+	--color1:white; /*Misplacement of color variables fixed.*/
+	--color2:rgb(0,100,255);
+	--knife-size:6px;
+	--expansion:60px;
+}
+
+.knife::before, .knife::after{
+	content:attr(text);
+	left:0px;
+	font-family:"Exo";
+	font-size:80px;
+	font-weight:500;
+	color:var(--color1);
+	overflow:hidden;
+	display:block;
+	width:100%;
+	transition:all ease 0.2s;
+	transition-delay:0.125s;
+	line-height:80px;
+	box-shadow:0 0 0 1px rgba(0,0,0,0); /*Firefox antialiasing hack*/
+}
+
+.knife::before{
+	position:relative;
+	top:0px;
+	clip-path:inset(0% -1% calc(50% - 0.5px) -1%);
+	/*-1% because skew(13deg) doesn't affects the box-size*/
+}
+
+.knife::after{
+	position:absolute;
+	bottom:0px;
+	clip-path:inset(50% -1% 0% -1%);
+	/*Same as above*/
+}
+
+
+.knife > div{
+	position:absolute;
+	left:50%;
+	top:50%;
+	width:0%;
+	height:var(--knife-size);
+	background:var(--color2);
+	display:block;
+	transform:translate(-50%,-50%);
+	z-index:10;
+	border-radius:10px;
+	transition:all cubic-bezier(1,0,0,1) 0.4s;
+}
+
+.knife:hover::before{
+	color:var(--color2);
+	transform:skew(13deg) translateX(10px); /*translateX--> 10px better*/
+	clip-path:inset(0% -1% calc(50% + var(--knife-size)) -1%);
+	/*Slicing effect: clip-path handles all that*/
+}
+
+.knife:hover::after{
+	color:var(--color2);
+	transform:skewX(13deg) translateX(-10px); /*same reason*/
+}
+
+.knife:hover > div{
+	width:calc(100% + var(--expansion));
+	transition-timing-function:cubic-bezier(.18,.89,.32,1.28);
+	background:var(--color1);
+}
