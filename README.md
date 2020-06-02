@@ -14,10 +14,12 @@ Despite of being a fun project, Knife.css has a wide range of uses and ready to 
 I'll provide demos of them soon.
 
 <h1>How to use it?</h1>
-Simply download the package and add knife-x.xx.xxx.css file inside the &lt;head&gt; tag.
-  <br><br>
+Simply download the package and add knife.css file into the &lt;head&gt; tag of your site.
+  <br>
 <code>
-  &lt;HEAD&gt;<br>
-  &lt;link href="knife-2.43.322.stable.css" rel="stylesheet"&gt;<br>
-  &lt;/HEAD&gt;
+&lt;HEAD&gt;
+  
+&lt;link href="knife-2.43.322.stable.css" rel="stylesheet"&gt;
+  
+&lt;/HEAD&gt;
 </code>
