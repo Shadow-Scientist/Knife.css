@@ -9,8 +9,6 @@ Despite of being a fun project, Knife.css has a wide range of uses and ready to 
 - Instructable tables
 - CSS Slide animations
 
-I'll provide demos of them soon.
-
 ## How to use it?
 Simply download the package and add knife.css file into the &lt;head&gt; tag of your site.<BR>
 ```<link href="knife-1.0.stable.css" rel="stylesheet">```
@@ -21,6 +19,6 @@ Add this onliner where you want to see your typography. Change the ```text``` at
 It's that simple!
 
 ## v2 Released!
-Knife.css has v2 release with lots of exiting effects! Give a try @ 
+Knife.css has v2 release with lots of exiting effects! Give a try @ https://shadow-scientist.github.io/Knife.css/live-demo-v2.htm
 
 Watch the v1.0 tutorial of this project @ https://www.youtube.com/watch?v=AY5gtQtujWU
