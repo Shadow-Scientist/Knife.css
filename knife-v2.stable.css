@@ -1,0 +1,690 @@
+/*Knife.css (v2) | MIT LICENSE | © Shadow Scientist (https://github.com/Shadow-Scientist)*/
+
+/* Now the fun begins! */
+
+.knife{
+	display:inline-block;
+	position:relative; /*position should be absolute or relative*/
+	/* transform:translate(-50%,-50%); placing @ center of the page*/
+	white-space:nowrap;
+	font-size:0px;
+	overflow:visible;
+	text-decoration:none;
+	--font-family:"Exo", Arial;
+	--font-family-icon:"Material Design Icons";
+	--font-size:80px;
+	--font-weight:500;
+	--color1:white; /*misplacement of color variables fixed*/
+	--color2:rgb(0,100,255);
+	--color3:rgb(255,0,255);
+	--knife-size:6px;
+	--expansion:60px;
+	--text-transition-ease:ease;
+	--knife-transition-ease:cubic-bezier(1,0,0,1);
+	--knife-transition-ease-active:cubic-bezier(.18,.89,.32,1.28);
+}
+
+.knife::before, .knife::after{
+	content:attr(text); /*grab the text to cut*/
+	left:0px;
+	font-family:var(--font-family);
+	font-size:var(--font-size);
+	font-weight:var(--font-weight);
+	color:var(--color1);
+	display:block;
+	width:100%;
+	text-decoration:none;
+	transition:all var(--text-transition-ease) 0.2s;
+	transition-delay:0.125s;
+	line-height:var(--font-size);
+	box-shadow:0 0 0 1px rgba(0,0,0,0); /*Firefox antialiasing hack*/
+}
+
+.knife::before{
+	position:relative;
+	top:0px;
+	clip-path:inset(0% -1% calc(50% - 0.5px) -1%);
+	/*-1% because skew doesn't affects the box-size and clipped edges are sharp!*/
+}
+
+.knife::after{
+	position:absolute;
+	bottom:0px;
+	clip-path:inset(50% -1% 0% -1%);
+	/*Same as above*/
+}
+
+.knife > div{
+	position:absolute;
+	left:50%;
+	top:50%;
+	width:0%;
+	height:var(--knife-size);
+	background:var(--color2);
+	display:block;
+	transform:translate(-50%,-50%);
+	z-index:10;
+	border-radius:10px;
+	transition:all var(--knife-transition-ease) 0.4s;
+	box-shadow:0 0 0 1px rgba(0,0,0,0); /*Firefox antialiasing hack, again!*/
+}
+
+.knife:hover::before{
+	color:var(--color2);
+	transform:skew(13deg) translateX(10px); /*translateX--> 10px better*/
+	clip-path:inset(0% -1% calc(50% + var(--knife-size)) -1%);
+	/*Slicing effect: clip-path handles all that*/
+}
+
+.knife:hover::after{
+	color:var(--color2);
+	transform:skewX(13deg) translateX(-10px); /*same reason*/
+}
+
+.knife:hover > div{
+	width:calc(100% + var(--expansion));
+	transition-timing-function:var(--knife-transition-ease-active);
+	background:var(--color1);
+}
+
+/* -knife-ellipse class 
+   added June 2nd, 2020
+ */
+
+.knife.-knife-ellipse{
+	--text-transition:ease;
+	--circle-radius:100px;
+	--knife-transition-ease:cubic-bezier(.18,.89,.32,1.28);
+	--knife-transition-ease-active:cubic-bezier(.18,.89,.32,1.28);
+}
+
+.knife.-knife-ellipse::before{
+	clip-path:none;
+	transform:none;
+	color:var(--color1);
+	z-index:5;
+}
+
+.knife.-knife-ellipse::after{
+	transform:none;
+	clip-path:circle(0% at 50% 50%);
+	color:var(--color2);
+	z-index:10;
+}
+
+.knife.-knife-ellipse:hover::after{
+	clip-path:circle(100% at 50% 50%);
+}
+
+.knife.-knife-ellipse:hover::before{transform:scale(0)}
+
+.knife.-knife-ellipse > div{
+	width:calc(var(--circle-radius) + var(--expansion));
+	height:calc(var(--circle-radius) + var(--expansion));
+	border-radius:100%;
+	transform:translate(-50%,-50%) scale(0);
+	background-color:transparent;
+	z-index:1;
+}
+
+.knife.-knife-ellipse:hover > div{
+	transform:translate(-50%,-50%) scale(1);
+	background-color:var(--color3);
+	opacity:0;
+}
+
+/* -knife-diag class 
+   added June 3rd, 2020
+ */
+
+.knife.-knife-diag{
+	--angle:11.5deg;
+	--text-angle:8deg;
+}
+
+.knife.-knife-diag::before{
+	clip-path:polygon(0% 0%,100% 0%,100% 100%);
+}
+
+.knife.-knife-diag::after{
+	clip-path:polygon(0% 0%,100% 100%,0% 100%);
+}
+
+.knife.-knife-diag > div{
+	transform:translate(-50%,-50%) rotate(0deg);
+}
+
+.knife.-knife-diag:hover::before{
+	transform:skew(calc(var(--text-angle) * -1)) translateX(4px);
+	clip-path:polygon(0% 0%,100% 0%,100% 80%);
+}
+
+.knife.-knife-diag:hover::after{
+	transform:skewX(calc(var(--text-angle) * -1)) translateX(-4px);
+	clip-path:polygon(0% 15%,100% 110%,0% 100%);
+}
+
+.knife.-knife-diag:hover > div{
+	transform:translate(-50%,-50%) rotate(var(--angle));
+}
+
+/* -knife-distort class 
+   added June 3rd, 2020
+ */
+
+.knife.-knife-distort{
+	--text-angle:7deg;
+	--displacement:10px;
+	--shift-left:30px;
+	--shift-bottom:-15px;
+	--knife-size:16%;
+}
+
+.knife.-knife-distort::before{
+	clip-path:polygon(0% 0%,100% 0%,100% 100%);
+}
+.knife.-knife-distort::after{
+	clip-path:polygon(0% 0%,100% 100%,0% 100%);
+}
+
+.knife.-knife-distort:hover::before{
+	clip-path:polygon(0% 25%,100% 110%,0% 100%);
+	transform:skew(var(--text-angle)) translateX(var(--displacement));
+}
+
+.knife.-knife-distort:hover::after{
+	clip-path:polygon(0% 0%,100% 0%,100% 80%);
+	transform:skewX(var(--text-angle)) translateX(calc(--displacement * -1));
+}
+
+.knife.-knife-distort > div{
+	transform:translateY(-50%);
+	left:0%;
+	top:50%;
+	height:var(--knife-size);
+	border-radius:0px;
+	animation:-knife-distort-out ease 0.19s forwards;
+}
+
+.knife.-knife-distort:hover > div{
+	animation:-knife-distort-in ease 0.19s forwards;
+}
+
+.knife.-knife-distort::after{
+	transition:color ease 0.2s, transform ease 0.2s, clip-path ease 0.2s, bottom ease 1s, left ease 1s;
+	transition-delay:0.125s, 0.125s, 0.125s, 0s, 0s;
+}
+
+.knife.-knife-distort:hover::after{
+	transition:color ease 0.2s, transform ease 0.2s, clip-path ease 0.2s, bottom ease 1s, left ease 1s;
+	transition-delay:0.125s, 0.125s, 0.125s, 0.25s, 0.25s;
+	left:var(--shift-left);
+	bottom:var(--shift-bottom);
+}
+
+@keyframes -knife-distort-in{
+	0%{width:0%;left:0%}
+	50%{width:100%;left:0%}
+	100%{width:0%;left:100%}
+}
+
+@keyframes -knife-distort-out{
+	50%{width:100%;left:0%;}
+	100%{width:0%;left:100%;}
+}
+
+/* -knife-slowmo class 
+   added June 3rd, 2020
+ */
+
+.knife.-knife-slowmo{
+	--text-transition-ease:cubic-bezier(.16,1.08,.38,.98);
+	--knife-transition-ease:cubic-bezier(.16,1.08,.38,.98);
+	--knife-transition-ease-active:cubic-bezier(.16,1.08,.38,.98);
+	--knife-size:6px;
+}
+
+.knife.-knife-slowmo::before, .knife.-knife-slowmo::after{
+	transition-duration:0.9s;
+	transition-delay:0s;
+}
+
+.knife.-knife-slowmo > div{
+	transition-duration:0.85s;
+	transition-delay:0s;
+	transform:translate(-50%,-50%) scaleY(0);
+	box-shadow:none; /*no antialiasing required*/
+}
+
+.knife.-knife-slowmo:hover > div{
+	transform:translate(-50%,-50%) scaleY(1);
+}
+
+/* -knife-strike class 
+   added June 3rd, 2020
+ */
+ 
+.knife.-knife-strike::before, .knife.-knife-strike::after{clip-path:none}
+.knife.-knife-strike::before{opacity:0}
+.knife.-knife-strike:hover::after{transform:none}
+
+/* -knife-float class 
+   added June 3rd, 2020
+ */
+
+.knife.-knife-float{
+	--knife-transition-ease-active:cubic-bezier(0.16, 1.08, 0.38, 0.98);
+	--expansion:0px;
+}
+
+.knife.-knife-float > div{
+	transform:translateY(-50%);
+	left:0px;
+}
+
+.knife.-knife-float::before, .knife.-knife-float::after{
+	transform:none;
+}
+
+.knife.-knife-float:hover::before{
+	top:calc(var(--knife-size) * -3);
+	clip-path:inset(0% -1% 50% -1%);
+	opacity:0.7;
+}
+
+/* -knife-float-re class 
+   added June 3rd, 2020
+ */
+
+.knife.-knife-float-re{
+	--knife-transition-ease-active:cubic-bezier(0.16, 1.08, 0.38, 0.98);
+	--expansion:0px;
+}
+
+.knife.-knife-float-re > div{
+	transform:translateY(-50%);
+	left:auto;
+	right:0px;
+}
+
+.knife.-knife-float-re::before, .knife.-knife-float-re::after{
+	transform:none;
+}
+
+.knife.-knife-float-re:hover::before{
+	top:calc(var(--knife-size) * -3);
+	clip-path:inset(0% -1% 50% -1%);
+	opacity:0.7;
+}
+
+/* -knife-sliced class 
+   added June 4th, 2020
+ */
+
+.knife.-knife-sliced{
+	--knife-transition-ease-active:cubic-bezier(1,0,0,1);
+	--expansion:0px;
+}
+
+.knife.-knife-sliced > div{
+	transform:translateY(-50%);
+	left:0px;
+}
+
+.knife.-knife-sliced::before, .knife.-knife-sliced::after{
+	transform:scale(1);
+}
+
+.knife.-knife-sliced::before{
+	transform-origin:50% 0%;
+}
+
+.knife.-knife-sliced::after{
+	transform-origin:50% 100%;
+}
+
+.knife.-knife-sliced:hover::before, .knife.-knife-sliced:hover::after{
+	transform:none;
+}
+
+.knife.-knife-sliced:hover::before{
+	top:calc(var(--knife-size) * -2);
+	clip-path:inset(0% -1% 50% -1%);
+}
+
+.knife.-knife-sliced:hover::after{
+	bottom:calc(var(--knife-size) * -2);
+}
+
+/* -knife-reveal class 
+   added June 4th, 2020
+ */
+
+.knife.-knife-reveal{
+	--knife-transition-ease-active:cubic-bezier(1,0,0,1);
+	--expansion:0px;
+}
+
+.knife.-knife-reveal > div{
+	transform:translateY(-50%);
+	left:0px;
+	opacity:1;
+	background-color:var(--color1);
+}
+
+.knife.-knife-reveal:hover > div{
+	opacity:0;
+	left:100%;
+	transform:scaleX(0);
+}
+
+.knife.-knife-reveal::before{
+	clip-path:inset(0% -1% 100% -1%);
+	transform:translateY(50%);
+}
+
+.knife.-knife-reveal::after{
+	clip-path:inset(100% -1% 0% -1%);
+	transform:translateY(-50%);
+}
+
+.knife.-knife-reveal:hover::before{
+	clip-path:inset(0% -1% 50% -1%);
+	transform:none;
+}
+
+.knife.-knife-reveal:hover::after{
+	clip-path:inset(50% -1% 0% -1%);
+	transform:none;
+}
+
+/* -knife-reveal-digital class 
+   added June 4th, 2020
+ */
+
+.knife.-knife-reveal-digital{
+	--knife-transition-ease-active:cubic-bezier(1,0,0,1);
+	--expansion:0px;
+}
+
+.knife.-knife-reveal-digital > div{
+	transform:translateY(-50%);
+	left:0px;
+	opacity:1;
+	background-color:var(--color1);
+}
+
+.knife.-knife-reveal-digital:hover > div{
+	opacity:0;
+	left:100%;
+	transform:scaleX(0);
+}
+
+.knife.-knife-reveal-digital::before, .knife.-knife-reveal-digital::after{
+	transform:none;
+}
+
+.knife.-knife-reveal-digital:hover::before, .knife.-knife-reveal-digital:hover::after{
+	transform:none;
+}
+
+.knife.-knife-reveal-digital::before{
+	top:-50%;
+	clip-path:inset(0% -1% 100% -1%);
+}
+
+.knife.-knife-reveal-digital::after{
+	bottom:-50%;
+	clip-path:inset(100% -1% 0% -1%);
+}
+
+.knife.-knife-reveal-digital:hover::before{
+	clip-path:inset(50% -1% 0% -1%);
+	top:0px;
+}
+
+.knife.-knife-reveal-digital:hover::after{
+	clip-path:inset(-4% -4% 50% -4%);
+	bottom:0px;
+}
+
+/* -knife-icon class 
+   ## supports all extendend classes*
+   ## including special effects like "-knife-icon-float" and "-knife-icon-sword"
+   added June 5th, 2020
+ */
+
+.knife.-knife-icon{--font-weight:400}
+
+.knife.-knife-distort.-knife-icon{
+	--text-angle:7deg;
+	--displacement:0px;
+	--shift-left:10px;
+	--shift-bottom:-20px;
+}
+
+.knife.-knife-diag.-knife-icon{
+	--angle:45deg;
+}
+
+.knife.-knife-icon::before, .knife.-knife-icon::after{
+	content:var(--icon); /*grab the icon to cut*/
+	font-family:var(--font-family-icon); /*set a specific icon font to get rid of box-size errors*/
+	font-weight:400;
+}
+
+/* -knife-icon-sword class 
+   added June 5th, 2020
+ */
+
+.knife.-knife-icon.-knife-icon-sword{
+	--knife-size:5px;
+	--sword-angle:46deg;
+	--sword-margin:7px;
+	--sword-start-from:-10px;
+	--displacement:3px;
+}
+
+.knife.-knife-icon.-knife-icon-sword > div{
+	left:var(--sword-start-from);
+	top:var(--sword-start-from);
+	transform:rotate(var(--sword-angle)) translate(var(--sword-margin), calc(var(--sword-margin) * -1));
+	transform-origin:0% 0%;
+	width:0%;
+	opacity:0;
+	background-color:var(--color3);
+}
+
+.knife.-knife-icon.-knife-icon-sword:hover > div{
+	animation:-knife-icon-sword linear 0.245s forwards;
+}
+
+.knife.-knife-icon.-knife-icon-sword::before{
+	clip-path:polygon(0% 1%,100% 0%,100% 101%);
+}
+
+.knife.-knife-icon.-knife-icon-sword::after{
+	clip-path:polygon(0% 0%,100% 100%,0% 100%);
+}
+
+.knife.-knife-icon.-knife-icon-sword::before, .knife.-knife-icon.-knife-icon-sword::after{
+	transition:all ease 0.2s 0s;
+	transform:none;
+}
+
+.knife.-knife-icon.-knife-icon-sword:hover::before, .knife.-knife-icon.-knife-icon-sword:hover::after{
+	transition:all ease 0.2s 0.3s;
+	transform:none;
+}
+
+.knife.-knife-icon.-knife-icon-sword:hover::before{
+	clip-path:polygon(5% 0%,100% 0%,100% 92%);
+	top:calc(var(--displacement) * -1);
+	left:var(--displacement);
+}
+.knife.-knife-icon.-knife-icon-sword:hover::after{
+	clip-path:polygon(0% 0%,100% 100%,0% 100%);
+	bottom:calc(var(--displacement) * -1);
+	left:calc(var(--displacement) * -1);
+}
+
+@keyframes -knife-icon-sword{
+	0%{width:0%;opacity:1}
+	50%{width:50%;top:50%;left:50%;opacity:1}
+	100%{width:0%;top:100%;left:100%;opacity:1}
+}
+
+/* -knife-icon-float class 
+   added June 5th, 2020
+ */
+
+.knife.-knife-icon.-knife-icon-float{
+	--sword-angle:45deg;
+	--displacement:4px;
+	--expansion:10px;
+	--text-transition-ease:cubic-bezier(.19,1,.22,1);
+	--knife-transition-ease:cubic-bezier(1,0,0,1);
+	--knife-transition-ease-active:cubic-bezier(.19,1,.22,1);
+}
+
+.knife.-knife-icon.-knife-icon-float::before, .knife.-knife-icon.-knife-icon-float::after{
+	transition:all var(--text-transition-ease) 0.6s 0.2s;
+	transform:none;
+}
+
+.knife.-knife-icon.-knife-icon-float::before{
+	clip-path:polygon(0% 1%,100% 0%,100% 101%);
+}
+
+.knife.-knife-icon.-knife-icon-float::after{
+	clip-path:polygon(0% 0%,100% 100%,0% 100%);
+}
+
+.knife.-knife-icon.-knife-icon-float > div{
+	transform:translate(-50%,-50%) rotate(var(--sword-angle));
+	transition:all var(--knife-transition-ease) 0.4s;
+}
+
+.knife.-knife-icon.-knife-icon-float:hover > div{
+	transition-timing-function:var(--knife-transition-ease-active);
+}
+
+.knife.-knife-icon.-knife-icon-float:hover::before, .knife.-knife-icon.-knife-icon-float:hover::after{
+	transition-delay:0s;
+}
+
+.knife.-knife-icon.-knife-icon-float:hover::before{
+	clip-path:polygon(10% 0%,100% 0%,100% 90%);
+	top:calc(var(--displacement) * -1);
+	left:var(--displacement);
+}
+
+.knife.-knife-icon.-knife-icon-float:hover::after{
+	clip-path:polygon(0% 0%,100% 100%,0% 100%);
+}
+
+/* -knife-gradient class 
+   added June 7th, 2020
+ */
+
+.knife.-knife-gradient{
+	--text-gradient:linear-gradient(-15deg, rgb(0,100,200) 0%, #55efcb 100%);
+	--knife-gradient:linear-gradient(-15deg, skyblue 0%, rgb(255,0,255) 100%);
+	--color2:#55efcb;
+}
+
+.knife.-knife-gradient::before, .knife.-knife-gradient::after{
+	background:var(--color1);
+	-webkit-background-clip:text;
+	-webkit-text-fill-color:rgba(0,0,0,0);
+}
+
+.knife.-knife-gradient:hover::before, .knife.-knife-gradient:hover::after{
+	background:var(--text-gradient);
+	background-color:var(--color2);
+	-webkit-background-clip:text;
+	-webkit-text-fill-color:rgba(0,0,0,0);
+}
+
+.knife.-knife-gradient:hover > div{
+	background:var(--knife-gradient);
+	background-color:var(--color1);
+}
+
+/* -knife-gradient-hue class 
+   added June 7th, 2020
+ */
+
+.knife.-knife-gradient-hue{
+	--text-gradient:linear-gradient(-45deg, rgb(0,120,255) 0%, rgb(255,0,255) 100%);
+	--knife-gradient:linear-gradient(45deg, #55efcb 0%, rgb(255,0,255) 100%);
+	--color2:rgb(255,0,255);
+}
+
+.knife.-knife-gradient-hue::before, .knife.-knife-gradient-hue::after{
+	background:var(--color1);
+	-webkit-background-clip:text;
+	-webkit-text-fill-color:rgba(0,0,0,0);
+}
+
+.knife.-knife-gradient-hue:hover::before, .knife.-knife-gradient-hue:hover::after{
+	background:var(--text-gradient);
+	background-color:var(--color2);
+	-webkit-background-clip:text;
+	-webkit-text-fill-color:rgba(0,0,0,0);
+	animation:hue ease 12s forwards infinite;
+}
+
+.knife.-knife-gradient-hue:hover > div{
+	background:var(--knife-gradient);
+	background-color:var(--color1);
+	animation:hue ease 6s forwards infinite;
+}
+
+@keyframes hue{100%{filter:hue-rotate(360deg)}}
+
+/* -knife-shoot class 
+   added June 8th, 2020
+ */
+
+.knife.-knife-shoot{
+
+}
+
+.knife.-knife-shoot::before, .knife.-knife-shoot::after{
+	clip-path:none;
+}
+
+/* -knife-clone class 
+   added June 8th, 2020
+ */
+
+.knife.-knife-clone::before, .knife.-knife-clone::after{
+	clip-path:none;
+	opacity:0.5;
+}
+.knife.-knife-clone::before{animation:-knife-shift-left ease 1s alternate infinite}
+.knife.-knife-clone::after{animation:-knife-shift-right ease 1s alternate infinite}
+
+@keyframes -knife-shift-left{100%{left:-10px}}
+@keyframes -knife-shift-right{100%{left:10px}}
+
+/* -knife-clone-rotate class 
+   added June 8th, 2020
+ */
+
+.knife.-knife-clone-rotate::before{animation:-knife-shift-left-h ease 1s alternate infinite}
+.knife.-knife-clone-rotate::after{animation:-knife-shift-right-h ease 1s alternate infinite}
+
+.knife.-knife-clone-rotate::before, .knife.-knife-clone-rotate::after{
+	clip-path:none;
+	opacity:0.5;
+	animation-play-state:paused;
+}
+
+.knife.-knife-clone-rotate:hover::before, .knife.-knife-clone-rotate:hover::after{animation-play-state:running;transform:skew(15deg)}
+
+@keyframes -knife-shift-left-h{100%{left:-10px;transform:rotate(-18deg)}}
+@keyframes -knife-shift-right-h{100%{left:10px;transform:rotate(18deg)}}
+
+/*more info @ 'https://github.com/Shadow-Scientist/Knife.css'*/
